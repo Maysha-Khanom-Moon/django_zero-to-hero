@@ -3,10 +3,13 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 def index(request):
-    params = {'name': 'harry', 'place': 'Mars'}
-    return render(request, 'index.html', params)
+    return render(request, 'index.html')
 
 def removePunc(request):
+    # default --> when we go through via direct url not from home
+    # when there is no GET request --> default
+    djtext = request.GET.get('text', 'default')
+    print(djtext)
     return HttpResponse('Remove Punctuation')
 
 def capFirst(request):
