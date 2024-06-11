@@ -1,8 +1,13 @@
 # I have created this file - Maysha Khanom Moon
 from django.http import HttpResponse
+from django.shortcuts import render
 
 def index(request):
-    return HttpResponse('<h1>hello, Maysha Khanom Moon</h1><a href="about">about</a>')
+    params = {'name': 'harry', 'place': 'Mars'}
+    return render(request, 'index.html', params)
 
-def about(request):
-    return HttpResponse('about Maysha Khanom Moon')
+def removePunc(request):
+    return HttpResponse('Remove Punctuation')
+
+def capFirst(request):
+    return HttpResponse('Capitaliz First')
