@@ -11,6 +11,9 @@ def analyze(request):
     removePunc = request.GET.get('removepunc', 'off')
     fullcaps = request.GET.get('fullcaps', 'off')
     newlineremover = request.GET.get('newlineremover', 'off')
+    extraspaceremover = request.GET.get('extraspaceremover', 'off')
+    charcounter = request.GET.get('charcounter', 'off')
+    
     print(removePunc)
     print(djtext)
     
@@ -39,6 +42,23 @@ def analyze(request):
                 analyzed += char
     
         params = {'purpose': 'Removed New Line', 'analyzed': analyzed}
+        return render(request, 'analyze.html', params)
+    
+    elif extraspaceremover == 'on':
+        for index, char in enumerate(djtext):
+            if djtext[index] == ' ' and djtext[index+1] == ' ':
+                pass
+            else:
+                analyzed += char
+    
+        params = {'purpose': 'Removed Extra Spaces', 'analyzed': analyzed}
+        return render(request, 'analyze.html', params)
+    
+    elif charcounter == 'on':
+        analyzed = len(djtext)
+        analyzed = 'Total number of characters: ' + str(analyzed)
+    
+        params = {'purpose': 'Character Counter', 'analyzed': analyzed}
         return render(request, 'analyze.html', params)
     
     else:
