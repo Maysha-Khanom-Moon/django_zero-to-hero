@@ -19,8 +19,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    # paths --> pipeline
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('remove-punc/', views.removePunc, name='removepunc'),
-    path('capitalize-first/', views.capFirst, name='capfirst'),
+    path('analyze/', views.analyze, name='analyze')
 ]

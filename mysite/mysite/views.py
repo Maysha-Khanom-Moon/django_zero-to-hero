@@ -5,12 +5,25 @@ from django.shortcuts import render
 def index(request):
     return render(request, 'index.html')
 
-def removePunc(request):
-    # default --> when we go through via direct url not from home
-    # when there is no GET request --> default
-    djtext = request.GET.get('text', 'default')
-    print(djtext)
-    return HttpResponse('Remove Punctuation')
 
-def capFirst(request):
-    return HttpResponse('Capitaliz First')
+def analyze(request):
+    djtext = request.GET.get('text', 'default')
+    removePunc = request.GET.get('removepunc', 'off')
+    print(removePunc)
+    print(djtext)
+    
+    # Analyze the text
+    punctuations = '''!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~'''
+    analyzed = ""
+    
+    if removePunc != 'off':
+        for char in djtext:
+            if char not in punctuations:
+                analyzed += char
+    
+        params = {'purpose': 'Removed Puntuations', 'analyzed': analyzed}
+        
+        return render(request, 'analyze.html', params)
+    
+    else:
+        return HttpResponse('Error')
