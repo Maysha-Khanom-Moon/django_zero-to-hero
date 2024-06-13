@@ -20,46 +20,70 @@ def analyze(request):
     # Analyze the text
     punctuations = '''!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~'''
     analyzed = ""
+    purpose = ""
     
     if removePunc != 'off':
         for char in djtext:
             if char not in punctuations:
                 analyzed += char
+        djtext = analyzed
+        analyzed = ""
     
-        params = {'purpose': 'Removed Puntuations', 'analyzed': analyzed}
-        return render(request, 'analyze.html', params)
+        purpose += 'Removed Puntuations\n'
     
-    elif fullcaps == 'on':
+    if fullcaps == 'on':
         for char in djtext:
             analyzed += char.upper()
+            
+        djtext = analyzed
+        analyzed = ""
+        purpose += 'Change to Uppercase\n'
     
-        params = {'purpose': 'Change to Uppercase', 'analyzed': analyzed}
-        return render(request, 'analyze.html', params)
+        # params = {'purpose': 'Change to Uppercase', 'analyzed': analyzed}
+        # return render(request, 'analyze.html', params)
     
-    elif newlineremover == 'on':
+    if newlineremover == 'on':
         for char in djtext:
             if char is not '\n' and char != '\r':
                 analyzed += char
+        
+        djtext = analyzed
+        analyzed = ""
+        purpose += 'Romoved New Line'
     
         params = {'purpose': 'Removed New Line', 'analyzed': analyzed}
-        return render(request, 'analyze.html', params)
+        # return render(request, 'analyze.html', params)
     
-    elif extraspaceremover == 'on':
+    if extraspaceremover == 'on':
         for index, char in enumerate(djtext):
             if djtext[index] == ' ' and djtext[index+1] == ' ':
                 pass
             else:
                 analyzed += char
+
+        djtext = analyzed
+        analyzed = ""
+        purpose += 'Romoved Extra Spaces\n'
+        
+        # params = {'purpose': 'Removed Extra Spaces', 'analyzed': analyzed}
+        # return render(request, 'analyze.html', params)
     
-        params = {'purpose': 'Removed Extra Spaces', 'analyzed': analyzed}
+    if charcounter == 'on':
+        # analyzed = len(djtext)
+        
+        if purpose:
+            analyzed = djtext + '\n\n'
+        
+        analyzed += 'Total number of characters: ' + str(len(djtext))
+        djtext = analyzed
+        purpose += 'Character Counter\n'
+    
+        # params = {'purpose': 'Character Counter', 'analyzed': analyzed}
+        # return render(request, 'analyze.html', params)
+    
+    if purpose:
+        params = {'purpose': purpose, 'analyzed': djtext}
         return render(request, 'analyze.html', params)
-    
-    elif charcounter == 'on':
-        analyzed = len(djtext)
-        analyzed = 'Total number of characters: ' + str(analyzed)
-    
-        params = {'purpose': 'Character Counter', 'analyzed': analyzed}
-        return render(request, 'analyze.html', params)
-    
     else:
-        return HttpResponse('Error')
+        return HttpResponse('Please select any operation and try again!')
+    
