@@ -14,9 +14,6 @@ def analyze(request):
     extraspaceremover = request.POST.get('extraspaceremover', 'off')
     charcounter = request.POST.get('charcounter', 'off')
     
-    print(removePunc)
-    print(djtext)
-    
     # Analyze the text
     punctuations = '''!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~'''
     analyzed = ""
@@ -39,9 +36,6 @@ def analyze(request):
         analyzed = ""
         purpose += 'Change to Uppercase\n'
     
-        # params = {'purpose': 'Change to Uppercase', 'analyzed': analyzed}
-        # return render(request, 'analyze.html', params)
-    
     if newlineremover == 'on':
         for char in djtext:
             if char is not '\n' and char != '\r':
@@ -52,7 +46,6 @@ def analyze(request):
         purpose += 'Romoved New Line'
     
         params = {'purpose': 'Removed New Line', 'analyzed': analyzed}
-        # return render(request, 'analyze.html', params)
     
     if extraspaceremover == 'on':
         for index, char in enumerate(djtext):
@@ -64,12 +57,8 @@ def analyze(request):
         djtext = analyzed
         analyzed = ""
         purpose += 'Romoved Extra Spaces\n'
-        
-        # params = {'purpose': 'Removed Extra Spaces', 'analyzed': analyzed}
-        # return render(request, 'analyze.html', params)
     
     if charcounter == 'on':
-        # analyzed = len(djtext)
         
         if purpose:
             analyzed = djtext + '\n\n'
@@ -77,9 +66,6 @@ def analyze(request):
         analyzed += 'Total number of characters: ' + str(len(djtext))
         djtext = analyzed
         purpose += 'Character Counter\n'
-    
-        # params = {'purpose': 'Character Counter', 'analyzed': analyzed}
-        # return render(request, 'analyze.html', params)
     
     if purpose:
         params = {'purpose': purpose, 'analyzed': djtext}
