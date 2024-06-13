@@ -20,7 +20,7 @@ from . import views
 
 urlpatterns = [
     # paths --> pipeline
-    path('admin/', admin.site.urls),
+    path('admin', admin.site.urls),
     path('', views.index, name='index'),
-    path('analyze/', views.analyze, name='analyze')
+    path('analyze', views.analyze, name='analyze')
 ]
